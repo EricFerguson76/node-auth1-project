@@ -1,13 +1,19 @@
 const express = require('express');
+const helmet = require('helmet');
+const cors = require('cors');
 
-const apiRouter = require('./api-router.js');
-const configureMiddleware = require('./configure-middleware.js');
+const authRouter = require('../auth/auth-router.js');
+const usersRouter = require('../users/users-router.js');
+const restricted = require('../auth/restricted-middleware.js');
 
 const server = express();
 
-configureMiddleware(server);
+server.use(helmet());
+server.use(express.json());
+server.use(cors());
 
-server.use('/api', apiRouter);
+server.use('/auth', authRouter);
+server.use('/users', restricted, usersRouter);
 
 server.get('/', (req, res) => {
   res.send(`<h3>Authentication<h3>`);
