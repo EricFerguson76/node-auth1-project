@@ -12,7 +12,7 @@ const knex = require('../database/dbConfig.js');
 const server = express();
 
 const sessionConfig = {
-  name: 'cookie monster',
+  name: 'monster',
   secret: 'keep it secret, keep it safe',
   resave: false,
   saveUninitialized: true,
@@ -34,9 +34,10 @@ const sessionConfig = {
 server.use(helmet());
 server.use(express.json());
 server.use(cors());
+server.use(session(sessionConfig));
 
-server.use('/auth', authRouter);
-server.use('/users', restricted, usersRouter);
+server.use('/api/auth', authRouter);
+server.use('/api/users', restricted, usersRouter);
 
 server.get('/', (req, res) => {
   res.send(`<h3>Authentication<h3>`);
