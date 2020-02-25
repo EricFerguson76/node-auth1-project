@@ -10,8 +10,6 @@ router.post('/register', (req, res) => {
 
   Users.add(user)
     .then(saved => {
-      req.session.loggedIn = true;
-
       res.status(201).json(saved);
     })
     .catch(error => {
